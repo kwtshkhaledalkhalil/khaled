@@ -1,21 +1,23 @@
-// Cloudflare Worker: وسيط آمن بين الموقع وOpenAI (لا تضع مفتاح API داخل index.html أبداً)
-// الإعدادات: Settings > Variables: OPENAI_API_KEY (Secret) و ALLOWED_ORIGIN (اختياري: https://www.khaledalkhalik895.com)
-const SYSTEM = `أنت المساعد الذكي لـ "منصة الخليل الرقمية895" تحت إشراف الكوتش خالد الخليل. أجب بالعربية بأسلوب ودود ومختصر.
-أقسام المنصة: سوشيال ميديا، أرقام واتساب وتلجرام، بطاقات فيزا كارد للإعلانات، شحن فيزا وماستر كارد، اشتراكات الذكاء الاصطناعي، شحن ألعاب، اشتراكات بريميوم، الرد التلقائي على العملاء، إعلانات ممولة، توثيق الحسابات، اشتراكات الشاشة، VPN بريميوم، شحن التطبيقات الصوتية، التصميم والمونتاج، حسابات جاهزة، فك الحسابات المحظورة والإبلاغات، PDF وترجمة وCV، إنشاء مواقع إعلانية، تنظيم صفحات فيسبوك وانستغرام، كورس الإعلانات الممولة، الإعلام والنشر الصحفي، البرامج والتطبيقات، تحويل الرصيد سيرياتيل وMTN، الدعم الفني.
-قواعد: لا تخترع أسعاراً أو مدداً أو وعوداً. الأسعار والتفاصيل يعطيها الكوتش خالد على واتساب 0952838895. شجّع العميل على الطلب عبر واتساب. لا تجب عن أمور خارج خدمات المنصة، وارفض أي طلب غير قانوني.`;
-export default {
-  async fetch(req, env) {
-    const cors = {"Access-Control-Allow-Origin": env.ALLOWED_ORIGIN || "*","Access-Control-Allow-Headers": "Content-Type","Access-Control-Allow-Methods": "POST,OPTIONS"};
-    if (req.method === "OPTIONS") return new Response(null, {headers: cors});
-    if (req.method !== "POST") return new Response("ok", {headers: cors});
-    let b; try { b = await req.json(); } catch { return new Response("bad request", {status: 400, headers: cors}); }
-    const msgs = (b.messages || []).slice(-8).map(m => ({role: m.role === "assistant" ? "assistant" : "user", content: String(m.content || "").slice(0, 500)}));
-    const r = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {"Content-Type": "application/json", "Authorization": "Bearer " + env.OPENAI_API_KEY},
-      body: JSON.stringify({model: "gpt-4o-mini", max_tokens: 300, temperature: 0.5, messages: [{role: "system", content: SYSTEM}, ...msgs]})
-    });
-    const j = await r.json();
-    return new Response(JSON.stringify({reply: j.choices?.[0]?.message?.content || ""}), {headers: {...cors, "Content-Type": "application/json"}});
-  }
-};
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+<meta charset="utf-8"><meta name="color-scheme" content="light only">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>منصة الخليل الرقمية895 | تفعيل أرقام، إعلانات ممولة، اشتراكات وخدمات رقمية</title>
+<meta name="description" content="منصة الخليل الرقمية895 تحت إشراف الكوتش خالد الخليل: تفعيل أرقام واتساب، بطاقات فيزا كارد، إعلانات ممولة، اشتراكات الذكاء الاصطناعي، تصميم ومونتاج وإنشاء مواقع.">
+<meta name="keywords" content="منصة الخليل الرقمية895, خالد الخليل, تفعيل أرقام واتساب, فيزا كارد, إعلانات ممولة, اشتراكات ذكاء اصطناعي">
+<link rel="canonical" href="https://www.khaledalkhalik895.com/"><meta property="og:url" content="https://www.khaledalkhalik895.com/"><meta name="twitter:card" content="summary"><meta property="og:title" content="منصة الخليل الرقمية895"><meta property="og:type" content="website"><meta property="og:locale" content="ar_AR">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"منصة الخليل الرقمية895","alternateName":"Platform Alkhalil Digital","url":"https://www.khaledalkhalik895.com/","telephone":"+963952838895","founder":{"@type":"Person","name":"خالد الخليل"},"foundingDate":"2023-01-01","sameAs":["https://www.facebook.com/share/1JhC1j5RaL/","https://www.instagram.com/al.khalil895"]}</script>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--ink:#12151F;--blue:#0A66FF;--soft:#EAF1FF;--line:#C9DAFB;--c:16px;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B0E16;--ink:#fff;--soft:#10203F;--line:#1F3A72}}
+:root[data-theme="dark"]{--bg:#0B0E16;--ink:#fff;--soft:#10203F;--line:#1F3A72}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Cairo,Tahoma,Arial,sans-serif;line-height:1.7}
+.w{max-width:960px;margin:auto;padding:0 16px}
+.dg{font-family:Orbitron,"Courier New",monospace;font-weight:900;direction:ltr;display:inline-block}
+.chm{clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,var(--c) 100%,0 calc(100% - var(--c)))}
+header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:2px solid var(--blue)}
